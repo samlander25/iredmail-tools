@@ -7,6 +7,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+const dbDriverName = "mysql"
+
 type Server struct {
 	DB   *sql.DB
 	Data struct {
@@ -40,7 +42,8 @@ func New() (*Server, error) {
 		config["host"] = "127.0.0.1"
 	}
 
-	db, err := sql.Open("mysql", config["user"]+":"+config["password"]+"@tcp("+config["host"]+":"+config["port"]+")/vmail")
+	// MariaDB speaks the MySQL wire protocol; this driver is compatible.
+	db, err := sql.Open(dbDriverName, config["user"]+":"+config["password"]+"@tcp("+config["host"]+":"+config["port"]+")/vmail")
 
 	server := &Server{
 		DB: db,

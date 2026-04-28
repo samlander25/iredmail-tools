@@ -45,7 +45,7 @@
 
 ## Installation
 
-> The current version only supports the MySQL version of iRedMail
+> The current version only supports the MariaDB version of IRedMail (1.6.0 - 1.8.x)
 
 Download the appropriate binary from https://github.com/drlogout/iredmail-cli/releases/latest, untar the file and move the binary to e.g. `/usr/local/bin/iredmail-cli`. 
 
@@ -500,6 +500,112 @@ Show iredMail and iredmail-cli version.
 ```bash
 $ iredmail-cli version
 cli version: 0.2.5
-iredMail version (MySQL): 0.9.8
+iredMail version (MariaDB): 0.9.8
 ```
 
+------
+
+### *iredmail-cli-test*
+
+Run end-to-end smoke tests against your iRedMail instance using the `iredmail-cli-test` binary.
+
+`iredmail-cli-test` uses `iredmail-cli` commands and relies on the same default config file:
+`~/.my.cnf-vmailadmin`
+
+*Usage:*
+
+```bash
+$ iredmail-cli-test --domain example.com
+```
+
+*Optional flags:*
+`--cli` path to `iredmail-cli` binary (default `iredmail-cli`)<br/>
+`--proof-cli` path to CLI used for list/proof checks (default `iredmail-cli`)<br/>
+`--quiet` hide per-step pass markers (default `false`)
+
+*Tests performed:*
+- Create 2 random mailboxes
+- Update both mailboxes (password and quota)
+- Add 2 random forwardings per mailbox
+- Edit forwardings by deleting 1 forwarding and adding a replacement
+- Remove all created forwardings
+- Verify no forwardings remain
+- Remove both created mailboxes
+- Verify both mailboxes are removed
+
+------
+
+### *REST API (Node.js)*
+
+A Node.js REST API wrapper is available at:
+`tools/rest-api`
+
+It executes `iredmail-cli` commands on the server and returns command output as JSON.
+
+**Warning:** This API has no authentication or authorization. Never expose it to the public internet under any circumstances. Bind it to localhost or protect it behind a trusted private network and strong access controls.
+
+Covered command groups and operations:
+- `mailbox`: `add`, `delete`, `info`, `list`, `update`, `add-alias`, `delete-alias`
+- `forwarding`: `add`, `delete`, `list`
+- `alias`: `add`, `delete`, `info`, `list`, `add-forwarding`, `delete-forwarding`
+
+*Source files:*
+- `tools/rest-api/server.js`
+- `tools/rest-api/package.json`
+
+*Run:*
+
+```bash
+cd tools/rest-api
+npm start
+```
+
+Optional environment variables:
+- `PORT` (default `8080`)
+- `IREDMAIL_CLI_PATH` (default `iredmail-cli`)
+- `CLI_TIMEOUT_MS` (default `15000`)
+
+Timeout behavior:
+- If an `iredmail-cli` command exceeds `CLI_TIMEOUT_MS`, the API kills the process and returns HTTP `504`.
+- Response body on timeout:
+  - `error`: `cli command timed out`
+  - `timeout_ms`: configured timeout
+  - `args`: command arguments used
+
+*API examples:*
+
+```bash
+# Health
+curl http://127.0.0.1:8080/health
+
+# Version
+curl http://127.0.0.1:8080/api/version
+
+# List mailboxes
+curl "http://127.0.0.1:8080/api/mailboxes?filter=example.com"
+
+# Add mailbox
+curl -X POST http://127.0.0.1:8080/api/mailboxes \
+  -H "Content-Type: application/json" \
+  -d '{"email":"api-test@example.com","password":"StrongPass123456","quota":2048}'
+
+# Delete mailbox
+curl -X DELETE http://127.0.0.1:8080/api/mailboxes/api-test%40example.com
+
+# Add forwarding
+curl -X POST http://127.0.0.1:8080/api/forwardings \
+  -H "Content-Type: application/json" \
+  -d '{"mailboxEmail":"api-test@example.com","destinationEmail":"ops@example.net"}'
+
+# Delete forwarding
+curl -X DELETE http://127.0.0.1:8080/api/forwardings \
+  -H "Content-Type: application/json" \
+  -d '{"mailboxEmail":"api-test@example.com","destinationEmail":"ops@example.net"}'
+
+# Alias add / info / delete
+curl -X POST http://127.0.0.1:8080/api/aliases \
+  -H "Content-Type: application/json" \
+  -d '{"aliasEmail":"alias-test@example.com"}'
+curl http://127.0.0.1:8080/api/aliases/alias-test%40example.com
+curl -X DELETE http://127.0.0.1:8080/api/aliases/alias-test%40example.com
+```

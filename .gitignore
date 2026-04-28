@@ -1,7 +1,10 @@
 testDB/dump
 testDB/mysql
+testDB/mariadb
 built/
+bin/
 iredmail-cli
 add.sh
 build.sh
 .DS_Store
+tools/rest-api/node_modules/

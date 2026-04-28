@@ -2,23 +2,22 @@ version: '2'
 
 services:
   iredMail:
-    image: mysql:5.7
+    image: mariadb:10.11
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ZyVYmLGLkQgcDEkU7ZYb4xNHZYmmPrMC
-      MYSQL_DATABASE: vmail
-      MYSQL_USER: vmail
-      MYSQL_PASSWORD: sx4fDttWdWNbiBPsGxhbbxic2MmmGsmJ
+      MARIADB_ROOT_PASSWORD: ZyVYmLGLkQgcDEkU7ZYb4xNHZYmmPrMC
+      MARIADB_DATABASE: vmail
+      MARIADB_USER: vmail
+      MARIADB_PASSWORD: sx4fDttWdWNbiBPsGxhbbxic2MmmGsmJ
     logging:
       driver: "json-file"
       options:
         max-size: "30m"
         max-file: "3"
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mariadb:/var/lib/mysql
       - ./dump:/docker-entrypoint-initdb.d
     ports:
       - 8806:3306
     
-
 
