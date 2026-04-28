@@ -592,6 +592,11 @@ curl -X POST http://127.0.0.1:8080/api/mailboxes \
 # Delete mailbox
 curl -X DELETE http://127.0.0.1:8080/api/mailboxes/api-test%40example.com
 
+# Update mailbox (quota/password/keepCopy)
+curl -X PATCH http://127.0.0.1:8080/api/mailboxes/api-test%40example.com \
+  -H "Content-Type: application/json" \
+  -d '{"quota":4096,"password":"NewStrongPass123!","keepCopy":false}'
+
 # Add forwarding
 curl -X POST http://127.0.0.1:8080/api/forwardings \
   -H "Content-Type: application/json" \
