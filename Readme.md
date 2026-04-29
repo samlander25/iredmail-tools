@@ -1,5 +1,5 @@
 # iredmail-tools
-##Introduction
+## Introduction
 This fork of drlogout's fantastic iredmail-cli tool has been updated to work with iRedmail Server (using MariaDB) v1.6.0-v1.8.x backed iRedMail Servers, as well as I have included a very basic node server to act as an internal REST API Server. Scroll to the bottom for deployment/usage instructions for the rest api.
 
 # iredmail-cli
