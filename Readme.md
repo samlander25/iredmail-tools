@@ -1,4 +1,4 @@
-# iredmail-cli
+# iredmail-cli (Go) / Rest API (Node)
 
 [![CircleCI](https://circleci.com/gh/drlogout/iredmail-cli/tree/master.svg?style=svg)](https://circleci.com/gh/drlogout/iredmail-cli/tree/master)
 
