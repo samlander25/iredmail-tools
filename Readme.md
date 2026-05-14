@@ -48,7 +48,7 @@ This fork of drlogout's fantastic iredmail-cli tool has been updated to work wit
 
 > The current version only supports the MariaDB version of IRedMail (1.6.0 - 1.8.x)
 
-Download the appropriate binary from https://github.com/drlogout/iredmail-cli/releases/latest, untar the file and move the binary to e.g. `/usr/local/bin/iredmail-cli`. 
+Download the appropriate binary from https://github.com/samlander25/iredmail-tools/releases/tag/v0.3.0-mariadb.1 and move the binary to e.g. `/usr/local/bin/iredmail-cli`. 
 
 By default `iredmail-cli` expects a config file under `~/.my.cnf-vmailadmin`. This file is generated through the iRedMail installation. It's also possible to specify a config file with the `—config` flag.
 
@@ -59,7 +59,7 @@ The `.my.cnf-vmailadmin` file needs following variables:
 host=127.0.0.1 (optional, default 127.0.0.1)
 port=3306 (optional, default 3306)
 user=vmailadmin
-password="UXXjQYn3KLbAJhonbkmNyGNJRsoXZ4rn"
+password="configured-password-from-installer-or-config"
 ```
 
 
@@ -554,6 +554,14 @@ Covered command groups and operations:
 - `tools/rest-api/server.js`
 - `tools/rest-api/package.json`
 
+*Installer:*
+- `tools/rest-api/install.sh`
+
+run as root with
+```bash
+bash ./install.sh
+```
+
 *Run:*
 
 ```bash
@@ -578,6 +586,7 @@ Timeout behavior:
 ```bash
 # API Reference (view in browser
 http://127.0.0.1:8081/api/reference
+
 # Health
 curl http://127.0.0.1:8081/health
 
