@@ -576,40 +576,42 @@ Timeout behavior:
 *API examples:*
 
 ```bash
+# API Reference (view in browser
+http://127.0.0.1:8081/api/reference
 # Health
-curl http://127.0.0.1:8080/health
+curl http://127.0.0.1:8081/health
 
 # Version
-curl http://127.0.0.1:8080/api/version
+curl http://127.0.0.1:8081/api/version
 
 # List mailboxes
-curl "http://127.0.0.1:8080/api/mailboxes?filter=example.com"
+curl "http://127.0.0.1:8081/api/mailboxes?filter=example.com"
 
 # Add mailbox
-curl -X POST http://127.0.0.1:8080/api/mailboxes \
+curl -X POST http://127.0.0.1:8081/api/mailboxes \
   -H "Content-Type: application/json" \
   -d '{"email":"api-test@example.com","password":"StrongPass123456","quota":2048}'
 
 # Delete mailbox
-curl -X DELETE http://127.0.0.1:8080/api/mailboxes/api-test%40example.com
+curl -X DELETE http://127.0.0.1:8081/api/mailboxes/api-test%40example.com
 
 # Update mailbox (quota/password/keepCopy)
-curl -X PATCH http://127.0.0.1:8080/api/mailboxes/api-test%40example.com \
+curl -X PATCH http://127.0.0.1:8081/api/mailboxes/api-test%40example.com \
   -H "Content-Type: application/json" \
   -d '{"quota":4096,"password":"NewStrongPass123!","keepCopy":false}'
 
 # Add forwarding
-curl -X POST http://127.0.0.1:8080/api/forwardings \
+curl -X POST http://127.0.0.1:8081/api/forwardings \
   -H "Content-Type: application/json" \
   -d '{"mailboxEmail":"api-test@example.com","destinationEmail":"ops@example.net"}'
 
 # Delete forwarding
-curl -X DELETE http://127.0.0.1:8080/api/forwardings \
+curl -X DELETE http://127.0.0.1:8081/api/forwardings \
   -H "Content-Type: application/json" \
   -d '{"mailboxEmail":"api-test@example.com","destinationEmail":"ops@example.net"}'
 
 # Alias add / info / delete
-curl -X POST http://127.0.0.1:8080/api/aliases \
+curl -X POST http://127.0.0.1:8081/api/aliases \
   -H "Content-Type: application/json" \
   -d '{"aliasEmail":"alias-test@example.com"}'
 curl http://127.0.0.1:8080/api/aliases/alias-test%40example.com
